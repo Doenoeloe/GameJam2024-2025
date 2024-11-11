@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour
     private int jumpAmount = 0;
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool wasGrounded = false; // Tracks grounding state for reset
+    private bool wasGrounded = false;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>(); // Initialize spriteRenderer
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (!isGrounded)
         {
-            wasGrounded = false; // Reset flag when airborne
+            wasGrounded = false;
         }
 
         // Jumping
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     // Trigger Detection for GroundCheck
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (((1 << collision.gameObject.layer) & groundLayer) != 0) // Check if collision is with groundLayer
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             Debug.Log("Ground detected");
             isGrounded = true;
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (((1 << collision.gameObject.layer) & groundLayer) != 0) // Check if collision is with groundLayer
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             Debug.Log("Left ground");
             isGrounded = false;
