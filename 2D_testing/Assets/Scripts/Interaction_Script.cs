@@ -5,9 +5,12 @@ using UnityEngine;
 public class Interaction_Script : MonoBehaviour
 {
     //All using variables
-    public GameObject canvas;
+    public GameObject interact_E;
+    public GameObject upgradesUI;
     public bool Interact_Bool = false;
+    public string ID = "";
     private bool isPlayerInRange = false;
+    private bool isUpgrading = false; // Added to track the upgrade UI state
 
     //Checks for collision enter
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,16 +27,19 @@ public class Interaction_Script : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            canvas.SetActive(false);
+            interact_E.SetActive(false);
         }
     }
 
     private void Update()
     {
-        //IF E is pressed and player is in range run interaction Event
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            InteractionEvent();
+            InteractionCheck();
+        }
+        if (isUpgrading && Input.GetKeyDown(KeyCode.Q))
+        {
+            CloseUpgradeUI();
         }
     }
 
@@ -41,13 +47,41 @@ public class Interaction_Script : MonoBehaviour
     {
         if (!Interact_Bool)
         {
-            canvas.SetActive(true);
+            interact_E.SetActive(true);
         }
     }
 
-    public void InteractionEvent()
+    public void InteractionCheck()
     {
-        //Put your interaction event here!!
-        print("Yay you interacted");
+        switch (ID)
+        {
+            case "upgradeStation":
+                print("Upgrade station");
+                UpgradeStation();
+                break;
+            case "npc_1":
+                print("npc 1");
+                // Add NPC 1 specific interaction code here
+                break;
+            case "npc_2":
+                print("npc 2");
+                // Add NPC 2 specific interaction code here
+                break;
+            default:
+                print("Unknown interaction ID");
+                break;
+        }
+    }
+
+    private void UpgradeStation()
+    {
+        upgradesUI.SetActive(true);
+        isUpgrading = true; 
+    }
+
+    private void CloseUpgradeUI()
+    {
+        upgradesUI.SetActive(false);
+        isUpgrading = false; 
     }
 }
